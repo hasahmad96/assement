@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Flash message code -->
+{% for message in get_flashed_messages() %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <!--{{ message }}-->
+        { name_to_update.name }} - {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+{% endfor %}
+
+{% if name %}
+    <h1>Update Employee Record</h1>
+    <br/>
+<table class="table table-hover table-bordered table-striped">
+{% for our_employees in our_employees %}
+    <tr>
+        <td>{{ our_employees.id }}. <a href="{{ url_for('update', id=our_employees.id) }}"> {{ our_employees.name }} </a> - {{ our_employees.email }} - {{ our_employees.field }}</td>
+    </tr>
+{% endfor %}
+</table>
+{% else %}
+    <h1>Update Employee ...</h1>
+    <br/>
+<div class="shadow p-3 mb-5 bg-body rounded">
+    <form action="/update/{{ name_to_update.id }}" method="POST">
+        {{ form.hidden_tag() }}
+
+        {{ form.name.label(
+        class="form-label") }}
+        {{ form.name(
+        class="form-control",
+        value=name_to_update.name) }}
+
+        {{ form.email.label(
+        class="form-label") }}
+        {{ form.email(
+        class="form-control",
+        value=name_to_update.email) }}
+{#value=name_to_update.name#}
+
+        {{ form.field.label(
+        class="form-label") }}
+        {{ form.field(
+        class="form-control",
+        value=name_to_update.field) }}
+
+        <br/>
+        <div class="col-sm-6">
+        {{ form.submit(
+        class="btn btn-secondary") }}
+
+
+            <a href="{{ url_for('show_employee') }}" class="btn btn-danger"><span>Cancel</span></a>
+        </div>
+
+        <br/>
+        <br/>
+    </form>
+</div>
+    <br/><br/>
+{% endif %}
+{% endblock %}
+
+
